@@ -1,0 +1,20 @@
+slaves:
+  - name: CAN-CT163
+    labels:
+      location: CN
+  - name: CAN-CTCN2
+    labels:
+      location: CN
+targets:
+  - group_name: example_group
+    slaves: ["CAN-CT163", "CAN-CTCN2"]
+    hosts:
+      - host: 104.245.12.188
+        labels:
+          target: xTom.SJC
+  - group_name: another_group
+    slaves: ["CAN-CT163"]
+    hosts:
+      - host: 128.1.145.129
+        labels:
+          target: Zenlayer.HKG
