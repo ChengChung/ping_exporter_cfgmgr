@@ -1,0 +1,1 @@
+ARGS="-config.path=/etc/ping_exporter_cfgmgr/config.yaml -web.listen-address=:9430 -config.refresh=1s"

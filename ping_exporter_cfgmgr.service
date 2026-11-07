@@ -1,0 +1,13 @@
+[Unit]
+Description=ping_exporter configuration manager
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/default/ping_exporter_cfgmgr
+ExecStart=/usr/local/bin/ping_exporter_cfgmgr $ARGS
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

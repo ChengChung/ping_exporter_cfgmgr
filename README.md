@@ -33,6 +33,35 @@ The server provides plain HTTP without authentication. Deploy on a trusted
 network, bind to loopback, or put it behind an authenticated HTTPS reverse proxy
 before exposing configurations outside that network.
 
+## systemd
+
+After building the binary, install the service and its configuration:
+
+```sh
+sudo install -m 0755 ping_exporter_cfgmgr /usr/local/bin/ping_exporter_cfgmgr
+sudo install -d /etc/default /etc/ping_exporter_cfgmgr
+sudo install -m 0644 example.yaml /etc/ping_exporter_cfgmgr/config.yaml
+sudo install -m 0644 ping_exporter_cfgmgr.default /etc/default/ping_exporter_cfgmgr
+sudo install -m 0644 ping_exporter_cfgmgr.service /etc/systemd/system/ping_exporter_cfgmgr.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now ping_exporter_cfgmgr.service
+```
+
+Edit `/etc/default/ping_exporter_cfgmgr` to set startup arguments:
+
+```sh
+ARGS="-config.path=/etc/ping_exporter_cfgmgr/config.yaml -web.listen-address=:9430 -config.refresh=1s"
+```
+
+This file is required. systemd expands `$ARGS` into separate command-line
+arguments; it does not run a shell. Use absolute paths for configuration files.
+Restart the service after changing `ARGS`:
+
+```sh
+sudo systemctl restart ping_exporter_cfgmgr.service
+sudo journalctl -u ping_exporter_cfgmgr.service -f
+```
+
 ## Connect a Slave
 
 On the CAN-CT163 node, run the rebuilt exporter with:
